@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RazerPaymentWithoutPlugin</string>
+    <string name="title_activity_main">RazerPaymentWithoutPlugin</string>
+    <string name="package_name">com.rzrTest.payment</string>
+    <string name="custom_url_scheme">com.rzrTest.payment</string>
+    <string name="ALERT_NFC_NOT_ENABLE">NFC is not enabled. Please enable NFC in the settings screen. </string>
+    <string name="BTN_SETTINGS">Settings</string>
+    <string name="ALERT_NOT_SUPPORTED_MSG">Not Supported.</string>
+    <string name="ALERT_BTN_OK">OK</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RazerPaymentWithoutPlugin</string>
+    <string name="title_activity_main">RazerPaymentWithoutPlugin</string>
+    <string name="package_name">com.rzrTest.payment</string>
+    <string name="custom_url_scheme">com.rzrTest.payment</string>
+</resources>

@@ -1,0 +1,102 @@
+apply plugin: 'com.android.application'
+
+
+
+android {
+  buildFeatures {
+    buildConfig = true
+  }
+    namespace "com.rzrTest.payment"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.rzrTest.payment"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+      resValue 'string', 'app_name', 'Razer'
+      manifestPlaceholders = [app_name: 'Razer']
+      buildConfigField 'String', 'FLAVOR_environment', '"uat"'
+      buildConfigField 'String', 'ACCESS_KEY', '"c6U5w2YQEP2DoazqatbyJU3nvIk5A47lX2/Am89SLXofAg=="' // Visa, Master, MCCS, UPI
+      buildConfigField 'String', 'SECRET_KEY', '"v0aQsKfVVucQnxKE5AsMtHp/EYRpsuLIAp504MNGJY0="' // Visa, Master, MCCS, UPI
+      buildConfigField 'String', 'ATTESTATION_HOST', '"https://mpos-uat.fasspay.com:9001"'
+      buildConfigField 'String', 'ATTESTATION_CERT_PINNING', '"sha256/BJlJjxY7OHxhAz6yqy2gm58+qlP0AGwnBHDIG6zkhfU="'
+      buildConfigField 'String', 'GOOGLE_API_KEY', '"jAUZd+2ryJoJrJivYgy81EbQWOhGQZEpnwnumWwpAig="'
+    }
+    signingConfigs {
+      sskey {
+        keyAlias 'rzr_test'
+        keyPassword "android"
+        storeFile file('Q:/keys/rzr.keystore')
+        storePassword "android"
+      }
+    }
+    lintOptions {
+      abortOnError false
+    }
+
+    buildTypes {
+      debug {
+        debuggable true
+        minifyEnabled false
+        signingConfig signingConfigs.sskey
+      }
+      release {
+        minifyEnabled true
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        signingConfig signingConfigs.sskey
+      }
+    }
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    implementation "junit:junit:$junitVersion"
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    implementation project(':capacitor-cordova-android-plugins')
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+
+  debugImplementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'], excludes: ['ssmobile-pog-engine-release.aar'])
+  releaseImplementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'], excludes: ['ssmobile-pog-engine-debug.aar'])
+  implementation 'com.google.android.play:integrity:1.0.2'
+  implementation 'com.google.android.gms:play-services-location:21.0.1'
+  implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
+  implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+  implementation 'com.squareup.okhttp3:okhttp:3.14.7'
+  implementation 'androidx.room:room-runtime:2.2.5'
+  implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+  implementation 'com.jakewharton.timber:timber:4.7.0'
+  implementation 'com.google.code.gson:gson:2.8.5'
+  implementation "androidx.lifecycle:lifecycle-process:2.2.0"
+
+
+}
+
+apply from: 'capacitor.build.gradle'
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}

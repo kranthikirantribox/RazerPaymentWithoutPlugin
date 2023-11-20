@@ -12,9 +12,14 @@
       <ion-title size="large">Blank</ion-title>
     </ion-toolbar>
   </ion-header>
+  
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <div *ngIf="displayData">
+      {{ displayData }}
+    </div>
+    <ion-button expand="block" (click)="oncreate()">On Create</ion-button>
+    <ion-button expand="block" (click)="refreshtoken()">Refresh</ion-button>
+    <ion-button expand="block" (click)="starttransfer()">Start Transfer</ion-button>
   </div>
 </ion-content>
